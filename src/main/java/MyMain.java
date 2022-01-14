@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class MyMain {
     // Returns the String that shows up latest alphabetically
@@ -9,14 +10,15 @@ public class MyMain {
     //      int x = "apple".compareTo("banana"); // x is negative
     //      int y = "banana".compareTo("apple"); // y is positive
     public static String findLastWord(String[] arr) {
-        String latest = "";
-        for(int i = 1; i<arr.length; i++){
-            int z = arr[i].compareTo(arr[i-1]);
-            if(z > 0){
-                latest = arr[i];
+        String last_word = "";
+        for(int i = 0; i<arr.length; i++){
+            String test = arr[i].toLowerCase(Locale.ROOT);
+            if(last_word.compareTo(test) < 0){
+                last_word = test;
             }
+
         }
-        return latest;
+        return last_word;
 
     }
 
@@ -25,7 +27,7 @@ public class MyMain {
     // You can assume that the matrix will not be empty
     // Hint: use the previous method to help yourself!
     public static String[] findLastWord2D(String[][] mat) {
-        String[] index = new String[2];
+        String[] index = new String[mat.length];
         int i = 0;
         for(String[] sub : mat){
             index[i] = findLastWord(sub);
@@ -62,12 +64,15 @@ public class MyMain {
     // Hint 2: you might need to loop through the columns!
     public static int findMostAppleColumn(String[][] mat) {
         int largest = 0;
-        for(int x = 0; x<mat.length; x++){
-            if(appleCounter(mat,x) > largest){
-                largest = x;
+        int freq = 0;
+        for(int x = 0; x<mat[0].length; x++){
+            int p = appleCounter(mat,x);
+            if(p > largest){
+                largest = p;
+                freq = x;
             }
         }
-        return largest;
+        return freq;
     }
 
 
@@ -174,11 +179,9 @@ public class MyMain {
 
 
     public static void main(String[] args) {
-        String [] arr = new String[] {"apple", "Banana","Dog", "Cucumber"};
-        System.out.println(findLastWord(arr));
-        String[][] _arr = {{"apple","banana"},{"fortnite", "apple"}};
-        System.out.println(appleCounter(_arr,0));
 
+        String[][] _arr = {{"apple","banana"},{"fortnite", "apple"},{"apple","dog"}};
+        System.out.println(findMostAppleColumn(_arr));
 
     }
 }
